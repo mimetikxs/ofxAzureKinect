@@ -75,6 +75,16 @@ namespace ofxAzureKinect
 		const Recorder& getRecorder() const;
 		Recorder& getRecorder();
 
+		// Color camera controls
+		// there are some issues with exposure: https://github.com/microsoft/Azure-Kinect-Sensor-SDK/issues/1511
+		struct ControlInfo
+		{
+			k4a_color_control_mode_t mode; 
+			int32_t value;
+		};
+		void setColorControl(k4a_color_control_command_t command, k4a_color_control_mode_t mode, int32_t value);
+		ControlInfo getColorControl(k4a_color_control_command_t command);
+
 	protected:
 		bool updateCapture() override;
 

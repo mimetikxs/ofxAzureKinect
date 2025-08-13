@@ -381,4 +381,14 @@ namespace ofxAzureKinect
 	{
 		return this->recorder;
 	}
+	
+	void Device::setColorControl(k4a_color_control_command_t command, k4a_color_control_mode_t mode, int32_t value) {
+		device.set_color_control(command, mode, value);
+	}
+
+	Device::ControlInfo Device::getColorControl(k4a_color_control_command_t command) {
+		ControlInfo info;
+		device.get_color_control(command, &info.mode, &info.value);
+		return info;
+	}
 }
