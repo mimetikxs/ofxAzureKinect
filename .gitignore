@@ -51,6 +51,12 @@ xcuserdata
 .vs
 ipch/
 
+# vscode
+.vscode
+*.code-workspace
+Makefile
+config.make
+
 # Eclipse
 .metadata
 local.properties
@@ -112,3 +118,4 @@ Desktop.ini
 *.vcxproj
 *vcxproj.*
 icon.rc
+
