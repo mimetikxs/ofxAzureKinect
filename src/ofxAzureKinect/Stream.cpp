@@ -274,7 +274,10 @@ namespace ofxAzureKinect
 		}
 		else
 		{
-			ofLogWarning(__FUNCTION__) << "No Depth16 capture found (" << ofGetFrameNum() << ")!";
+			if (this->getDepthMode() != K4A_DEPTH_MODE_PASSIVE_IR)
+			{
+				ofLogWarning(__FUNCTION__) << "No Depth16 capture found (" << ofGetFrameNum() << ")!";
+			}
 		}
 
 		k4a::image colorImg;
@@ -340,29 +343,32 @@ namespace ofxAzureKinect
 			}
 		}
 
-		if (colorImg && this->bUpdateColor && this->getColorFormat() == K4A_IMAGE_FORMAT_COLOR_BGRA32)
-		{
-			// TODO: Fix this for non-BGRA formats, maybe always keep a BGRA k4a::image around.
-			this->updateDepthInColorFrame(depthImg, colorImg);
-			this->updateColorInDepthFrame(depthImg, colorImg);
-		}
+        if (depthImg)
+        {
+            if (colorImg && this->bUpdateColor && this->getColorFormat() == K4A_IMAGE_FORMAT_COLOR_BGRA32)
+            {
+                // TODO: Fix this for non-BGRA formats, maybe always keep a BGRA k4a::image around.
+                this->updateDepthInColorFrame(depthImg, colorImg);
+                this->updateColorInDepthFrame(depthImg, colorImg);
+            }
 
-		if (this->bUpdateVbo)
-		{
-			if (this->bUpdateColor && !this->bForceVboToDepthSize)
-			{
-				this->updatePointsCache(this->depthInColorImg, this->colorToWorldImg);
-			}
-			else
-			{
-				this->updatePointsCache(depthImg, this->depthToWorldImg);
-			}
-		}
+            if (this->bUpdateVbo)
+            {
+                if (this->bUpdateColor && !this->bForceVboToDepthSize)
+                {
+                    this->updatePointsCache(this->depthInColorImg, this->colorToWorldImg);
+                }
+                else
+                {
+                    this->updatePointsCache(depthImg, this->depthToWorldImg);
+                }
+            }
 
-		if (this->bodyTracker.isTracking())
-		{
-			this->bodyTracker.processCapture(this->capture, this->calibration, this->transformation, depthImg);
-		}
+            if (this->bodyTracker.isTracking())
+            {
+                this->bodyTracker.processCapture(this->capture, this->calibration, this->transformation, depthImg);
+            }
+        }
 
 		// Release images.
 		depthImg.reset();

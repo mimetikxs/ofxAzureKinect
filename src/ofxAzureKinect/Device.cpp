@@ -160,8 +160,22 @@ namespace ofxAzureKinect
 		// Set update flags.
 		this->bUpdateColor = deviceSettings.updateColor;
 		this->bUpdateIr = deviceSettings.updateIr;
-		this->bUpdateWorld = deviceSettings.updateWorld;
-		this->bUpdateVbo = deviceSettings.updateWorld && deviceSettings.updateVbo;
+		
+		if (deviceSettings.depthMode == K4A_DEPTH_MODE_PASSIVE_IR)
+		{
+			if (deviceSettings.updateWorld || deviceSettings.updateVbo)
+			{
+				ofLogNotice(__FUNCTION__) << "K4A_DEPTH_MODE_PASSIVE_IR selected. Disabling updateWorld and updateVbo as no depth image is produced.";
+			}
+			this->bUpdateWorld = false;
+			this->bUpdateVbo = false;
+		}
+		else
+		{
+			this->bUpdateWorld = deviceSettings.updateWorld;
+			this->bUpdateVbo = deviceSettings.updateWorld && deviceSettings.updateVbo;
+		}
+		
 		this->bForceVboToDepthSize = deviceSettings.forceVboToDepthSize;
 
 		// Get calibration.
