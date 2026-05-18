@@ -21,13 +21,13 @@ The instructions below are based on the [Azure Kinect Sensor SDK Usage](https://
 * Add an environment variable for `AZUREKINECT_SDK` and set it to the Sensor SDK installation path (no trailing slash). The default is `C:\Program Files\Azure Kinect SDK v1.4.1`.
 * Add an environment variable for `AZUREKINECT_BODY_SDK` and set it to the Body SDK installation path (no trailing slash). The default is `C:\Program Files\Azure Kinect Body Tracking SDK`.
 
-	![Environment Variables](Install-EnvVars.png)
+ ![Environment Variables](Install-EnvVars.png)
 
 * Add the path to the Sensor SDK `bin` folder to the `PATH` variable. The default is `%AZUREKINECT_SDK%\sdk\windows-desktop\amd64\release\bin`.
 * Add the path to the Body SDK `bin` folder to the `PATH` variable. The default is `%AZUREKINECT_BODY_SDK%\sdk\windows-desktop\amd64\release\bin`.
 * Add the path to the Body SDK `tools` folder to the `PATH` variable. The default is `%AZUREKINECT_BODY_SDK%\tools`.
 
-	![Path](Install-Path.png)
+ ![Path](Install-Path.png)
 
 * Clone this repository in your openFrameworks `addons` folder.
 * You can then use the OF Project Generator to generate projects with the appropriate headers and libraries included. ✌️
@@ -41,12 +41,15 @@ The instructions below are based on the [Azure Kinect Sensor SDK Usage](https://
 * Setup udev rules by copying [this file](https://github.com/microsoft/Azure-Kinect-Sensor-SDK/blob/develop/scripts/99-k4a.rules) to `/etc/udev/rules.d/99-k4a.rules`.
 * Install [libjpeg-turbo](https://sourceforge.net/projects/libjpeg-turbo/).
 * Clone this repository in your openFrameworks `addons` folder.
-* You can then use the OF Project Generator to generate projects with the appropriate headers and libraries included. 
+* You can then use the OF Project Generator to generate projects with the appropriate headers and libraries included.
 🐣
+
+More info about installing dependencies: [Azure Kinect on Ubuntu](https://gist.github.com/mimetikxs/a89cd261481d092784e0cbe02bbd2b27).
 
 ## Compatibility
 
-Tested with: 
+Tested with:
+
 * openFrameworks 0.10.x / 0.11.x
 * Windows 10, Visual Studio 2017 / 2019
 * Ubuntu 19.10, Qt Creator
