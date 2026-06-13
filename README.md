@@ -60,24 +60,37 @@ The instructions below are based on the [Azure Kinect Sensor SDK Usage](https://
 
 More info about installing dependencies: [Azure Kinect on Ubuntu](https://gist.github.com/mimetikxs/a89cd261481d092784e0cbe02bbd2b27).
 
-### Backend 2: Orbbec Femto Bolt (Linux)
+### Backend 2: Orbbec Femto Bolt
 
 To use the Orbbec Femto Bolt, this addon natively supports compiling against the Orbbec K4A Wrapper as a drop-in replacement.
 
-To configure your system to use the Orbbec backend:
+#### Windows
+
+1. Ensure the standard Microsoft `Azure Kinect Body Tracking SDK` is installed if you intend to use body tracking features.
+2. Download the latest Windows (`win_x64`) release from the [OrbbecSDK-K4A-Wrapper Releases](https://github.com/orbbec/OrbbecSDK-K4A-Wrapper/releases). **Important**: Ensure you download a release from the `v2-main` branch (e.g., `v2.x.x`) to use the latest Orbbec SDK v2.
+3. Extract the downloaded archive to a dedicated folder (e.g., `C:\OrbbecSDK-K4A-Wrapper`).
+4. Add an environment variable for `ORBBEC_K4A_WRAPPER` and set it to this extracted folder path.
+5. Add the path to the wrapper's `bin` folder (e.g., `%ORBBEC_K4A_WRAPPER%\bin`) to your system `PATH` variable so the depth engine and `k4a.dll` can be found at runtime.
+6. Open `addons/ofxAzureKinect/addon_config.mk` and follow the instructions in the `vs:` section to comment out the default Microsoft backend and uncomment the Orbbec backend.
+7. Use the OF Project Generator to update your project.
+
+#### Linux
 
 1. Ensure the standard Microsoft `libk4abt` package is installed on your system if you intend to use body tracking features.
 2. Download the latest Linux release from the [OrbbecSDK-K4A-Wrapper Releases](https://github.com/orbbec/OrbbecSDK-K4A-Wrapper/releases). **Important**: Ensure you download a release from the `v2-main` branch (e.g., `v2.x.x`) to use the latest Orbbec SDK v2.
 3. Extract the downloaded archive to a dedicated folder: `/opt/orbbec-k4a/`.
-4. Set up the Orbbec `udev` rules by copying `scripts/99-k4a.rules` from the extracted wrapper folder to `/etc/udev/rules.d/` and reload udev (`sudo udevadm control --reload-rules && sudo udevadm trigger`).
-5. Ensure that `libDepthengine_2_0.so` (provided by Orbbec) is present in your `/opt/orbbec-k4a/lib/` directory so the depth stream can start.
-6. Open your openFrameworks project's `config.make` file and add the following variable:
+4. Set up the Orbbec `udev` rules. **Important:** To avoid overwriting your original Microsoft Azure Kinect rules, copy the file under a new name:
+   ```bash
+   sudo cp /opt/orbbec-k4a/scripts/99-k4a.rules /etc/udev/rules.d/99-orbbec-femto.rules
+   sudo udevadm control --reload-rules && sudo udevadm trigger
+   ```
+5. Open your openFrameworks project's `config.make` file and add the following variable:
 
    ```make
    USE_FEMTO_BOLT = 1
    ```
 
-   This will automatically configure the addon to compile and link against the Orbbec libraries instead of the default Microsoft libraries.
+   This will automatically configure the Linux addon to compile and link against the Orbbec libraries instead of the default Microsoft libraries.
 
 ## Compatibility
 

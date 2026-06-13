@@ -61,11 +61,25 @@ common:
 	# ADDON_LIBS_EXCLUDE =
 
 vs:
+	# -------------------------------------------------------------------------
+	# MICROSOFT AZURE KINECT BACKEND (DEFAULT)
+	# -------------------------------------------------------------------------
 	ADDON_INCLUDES += $(AZUREKINECT_SDK)\sdk\include
 	ADDON_INCLUDES += $(AZUREKINECT_BODY_SDK)\sdk\include
 	ADDON_LIBS += $(AZUREKINECT_SDK)\sdk\windows-desktop\amd64\release\lib\k4a.lib
 	ADDON_LIBS += $(AZUREKINECT_SDK)\sdk\windows-desktop\amd64\release\lib\k4arecord.lib
 	ADDON_LIBS += $(AZUREKINECT_BODY_SDK)\sdk\windows-desktop\amd64\release\lib\k4abt.lib
+	
+	# -------------------------------------------------------------------------
+	# ORBBEC FEMTO BOLT BACKEND
+	# To use Orbbec on Windows, comment out the Microsoft section above
+	# and uncomment the section below before running the OF Project Generator.
+	# -------------------------------------------------------------------------
+	# ADDON_INCLUDES += $(ORBBEC_K4A_WRAPPER)\include
+	# ADDON_INCLUDES += $(AZUREKINECT_BODY_SDK)\sdk\include
+	# ADDON_LIBS += $(ORBBEC_K4A_WRAPPER)\lib\k4a.lib
+	# ADDON_LIBS += $(ORBBEC_K4A_WRAPPER)\lib\k4arecord.lib
+	# ADDON_LIBS += $(AZUREKINECT_BODY_SDK)\sdk\windows-desktop\amd64\release\lib\k4abt.lib
 	
 linux64: 
 ifdef USE_FEMTO_BOLT
