@@ -68,11 +68,22 @@ vs:
 	ADDON_LIBS += $(AZUREKINECT_BODY_SDK)\sdk\windows-desktop\amd64\release\lib\k4abt.lib
 	
 linux64: 
-	ADDON_INCLUDES += /usr/include
+ifdef USE_FEMTO_BOLT
+	# Point to Orbbec Headers
+	ADDON_INCLUDES += /opt/orbbec-k4a/include
+	
+	# Point to Orbbec Libraries
+	ADDON_LIBS_LDFLAGS += -L/opt/orbbec-k4a/lib -lk4a -lk4arecord -lk4abt
+	
+	# Set rpath to ensure it loads Orbbec's .so at runtime instead of the system's
+	ADDON_LDFLAGS += -Wl,-rpath=/opt/orbbec-k4a/lib
+else
+	# Default Microsoft Azure Kinect paths
 	ADDON_INCLUDES += /usr/include/k4a
 	ADDON_LIBS += /usr/lib/libk4abt.so
 	ADDON_LIBS += /usr/lib/x86_64-linux-gnu/libk4a.so
 	ADDON_LIBS += /usr/lib/x86_64-linux-gnu/libk4arecord.so
+endif
 	ADDON_LIBS += /opt/libjpeg-turbo/lib64/libturbojpeg.a
 
 linux:

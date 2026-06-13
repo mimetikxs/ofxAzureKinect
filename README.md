@@ -14,7 +14,9 @@ ofxAddon that allows you to use [Azure Kinect](https://azure.microsoft.com/en-us
 
 The instructions below are based on the [Azure Kinect Sensor SDK Usage](https://github.com/microsoft/Azure-Kinect-Sensor-SDK/blob/develop/docs/usage.md) page.
 
-### Windows
+### Backend 1: Microsoft Azure Kinect
+
+#### Windows
 
 * Install the [Azure Kinect Sensor SDK](https://docs.microsoft.com/en-us/azure/Kinect-dk/sensor-sdk-download).
 * Install the [Azure Kinect Body Tracking SDK](https://docs.microsoft.com/en-us/azure/Kinect-dk/body-sdk-download).
@@ -33,11 +35,23 @@ The instructions below are based on the [Azure Kinect Sensor SDK Usage](https://
 * You can then use the OF Project Generator to generate projects with the appropriate headers and libraries included. ✌️
 * Note that if you want to use body tracking, you will need to copy the cuDNN model file `dnn_model_2_0.onnx` from the Body SDK `tools` folder into your project's `bin` folder!
 
-### Linux
+#### Linux
+
+*(Note: These installation instructions have been tested and verified on Ubuntu 24.04)*
 
 * Configure the [Linux Software Repository for Microsoft](https://docs.microsoft.com/en-us/windows-server/administration/linux-package-repository-for-microsoft-software). Note that for Ubuntu you'll need to set up the repo for 18.04 even if you're running newer versions.
-* Install the Azure Kinect Sensor SDK packages: `libk4a1.3` `libk4a1.3-dev` `k4a-tools`
-* Install the Azure Kinect Body Tracking SDK packages: `libk4abt1.0` `libk4abt1.0-dev`
+* Install the Azure Kinect Sensor SDK packages. It is important to install the specific versions in this order:
+
+  ```bash
+  sudo apt install libk4a1.4=1.4.1 libk4a1.4-dev=1.4.1 k4a-tools=1.4.1
+  ```
+
+* Install the Azure Kinect Body Tracking SDK packages. The version defaults to `1.1.2`:
+
+  ```bash
+  sudo apt install libk4abt1.1 libk4abt1.1-dev
+  ```
+
 * Setup udev rules by copying [this file](https://github.com/microsoft/Azure-Kinect-Sensor-SDK/blob/develop/scripts/99-k4a.rules) to `/etc/udev/rules.d/99-k4a.rules`.
 * Install [libjpeg-turbo](https://sourceforge.net/projects/libjpeg-turbo/).
 * Clone this repository in your openFrameworks `addons` folder.
@@ -46,13 +60,32 @@ The instructions below are based on the [Azure Kinect Sensor SDK Usage](https://
 
 More info about installing dependencies: [Azure Kinect on Ubuntu](https://gist.github.com/mimetikxs/a89cd261481d092784e0cbe02bbd2b27).
 
+### Backend 2: Orbbec Femto Bolt (Linux)
+
+To use the Orbbec Femto Bolt, this addon natively supports compiling against the Orbbec K4A Wrapper as a drop-in replacement.
+
+To configure your system to use the Orbbec backend:
+
+1. Ensure the standard Microsoft `libk4abt` package is installed on your system if you intend to use body tracking features.
+2. Download the latest Linux release from the [OrbbecSDK-K4A-Wrapper Releases](https://github.com/orbbec/OrbbecSDK-K4A-Wrapper/releases). **Important**: Ensure you download a release from the `v2-main` branch (e.g., `v2.x.x`) to use the latest Orbbec SDK v2.
+3. Extract the downloaded archive to a dedicated folder: `/opt/orbbec-k4a/`.
+4. Set up the Orbbec `udev` rules by copying `scripts/99-k4a.rules` from the extracted wrapper folder to `/etc/udev/rules.d/` and reload udev (`sudo udevadm control --reload-rules && sudo udevadm trigger`).
+5. Ensure that `libDepthengine_2_0.so` (provided by Orbbec) is present in your `/opt/orbbec-k4a/lib/` directory so the depth stream can start.
+6. Open your openFrameworks project's `config.make` file and add the following variable:
+
+   ```make
+   USE_FEMTO_BOLT = 1
+   ```
+
+   This will automatically configure the addon to compile and link against the Orbbec libraries instead of the default Microsoft libraries.
+
 ## Compatibility
 
 Tested with:
 
-* openFrameworks 0.10.x / 0.11.x
-* Windows 10, Visual Studio 2017 / 2019
-* Ubuntu 19.10, Qt Creator
+* openFrameworks 0.12.1
+* Windows 10/11, Visual Studio 2019/2020
+* Ubuntu 24.04 LTS, VS Code
 
 ## Examples
 

@@ -2,6 +2,11 @@
 
 #include "ofLog.h"
 
+#ifdef TARGET_LINUX
+#include <GLFW/glfw3.h>
+#endif
+
+
 const int32_t TIMEOUT_IN_MS = 1000;
 
 namespace ofxAzureKinect
@@ -229,7 +234,16 @@ namespace ofxAzureKinect
 		// Start cameras.
 		try
 		{
+#ifdef TARGET_LINUX
+			GLFWwindow* currentContext = glfwGetCurrentContext();
+			glfwMakeContextCurrent(NULL);
+#endif
+
 			this->device.start_cameras(&this->config);
+
+#ifdef TARGET_LINUX
+			glfwMakeContextCurrent(currentContext);
+#endif
 		}
 		catch (const k4a::error& e)
 		{
