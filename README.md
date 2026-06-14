@@ -66,7 +66,7 @@ To use the Orbbec Femto Bolt, this addon natively supports compiling against the
 
 #### Windows
 
-1. Ensure the standard Microsoft `Azure Kinect Body Tracking SDK` is installed if you intend to use body tracking features.
+1. Ensure the standard Microsoft `Azure Kinect Body Tracking SDK` is installed if you intend to use body tracking features *(Note: you already have this if you set up the Microsoft backend previously)*.
 2. Download the latest Windows (`win_x64`) release from the [OrbbecSDK-K4A-Wrapper Releases](https://github.com/orbbec/OrbbecSDK-K4A-Wrapper/releases). **Important**: Ensure you download a release from the `v2-main` branch (e.g., `v2.x.x`) to use the latest Orbbec SDK v2.
 3. Extract the downloaded archive to a dedicated folder (e.g., `C:\OrbbecSDK-K4A-Wrapper`).
 4. Add an environment variable for `ORBBEC_K4A_WRAPPER` and set it to this extracted folder path.
@@ -76,7 +76,7 @@ To use the Orbbec Femto Bolt, this addon natively supports compiling against the
 
 #### Linux
 
-1. Ensure the standard Microsoft `libk4abt` package is installed on your system if you intend to use body tracking features.
+1. Ensure the standard Microsoft `libk4abt` package is installed on your system if you intend to use body tracking features *(Note: you already have this if you set up the Microsoft backend previously)*.
 2. Download the latest Linux release from the [OrbbecSDK-K4A-Wrapper Releases](https://github.com/orbbec/OrbbecSDK-K4A-Wrapper/releases). **Important**: Ensure you download a release from the `v2-main` branch (e.g., `v2.x.x`) to use the latest Orbbec SDK v2.
 3. Extract the downloaded archive to a dedicated folder: `/opt/orbbec-k4a/`.
 4. Set up the Orbbec `udev` rules. **Important:** To avoid overwriting your original Microsoft Azure Kinect rules, copy the file under a new name:
