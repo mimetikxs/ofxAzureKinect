@@ -235,6 +235,9 @@ namespace ofxAzureKinect
 		try
 		{
 #ifdef TARGET_LINUX
+			// [WORKAROUND: EGL Context Collision]
+			// The Orbbec Depth Engine will fail to initialize its EGL context (Error 0x3000 / 0x3001) 
+			// if the main thread is currently holding an active GLFW OpenGL context. We must detach it first.
 			GLFWwindow* currentContext = glfwGetCurrentContext();
 			glfwMakeContextCurrent(NULL);
 #endif

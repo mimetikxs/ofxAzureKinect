@@ -79,18 +79,14 @@ To use the Orbbec Femto Bolt, this addon natively supports compiling against the
 1. Ensure the standard Microsoft `libk4abt` package is installed on your system if you intend to use body tracking features *(Note: you already have this if you set up the Microsoft backend previously)*.
 2. Download the latest Linux release from the [OrbbecSDK-K4A-Wrapper Releases](https://github.com/orbbec/OrbbecSDK-K4A-Wrapper/releases). **Important**: Ensure you download a release from the `v2-main` branch (e.g., `v2.x.x`) to use the latest Orbbec SDK v2.
 3. Extract the downloaded archive to a dedicated folder: `/opt/orbbec-k4a/`.
-4. Set up the Orbbec `udev` rules. **Important:** To avoid overwriting your original Microsoft Azure Kinect rules, copy the file under a new name:
+4. Set up the Orbbec `udev` rules. Since you downloaded the v2 wrapper, it provides its own uniquely named rules file that won't conflict with Microsoft's:
    ```bash
-   sudo cp /opt/orbbec-k4a/scripts/99-k4a.rules /etc/udev/rules.d/99-orbbec-femto.rules
+   sudo cp /opt/orbbec-k4a/scripts/99-obsensor-libusb.rules /etc/udev/rules.d/
    sudo udevadm control --reload-rules && sudo udevadm trigger
    ```
-5. Open your openFrameworks project's `config.make` file and add the following variable:
-
-   ```make
-   USE_FEMTO_BOLT = 1
-   ```
-
-   This will automatically configure the Linux addon to compile and link against the Orbbec libraries instead of the default Microsoft libraries.
+   *(Alternatively, you can just run `sudo ./install_udev_rules.sh` inside that scripts folder).*
+5. Open `addons/ofxAzureKinect/addon_config.mk` and follow the instructions in the `linux64:` section to comment out the default Microsoft backend and uncomment the Orbbec backend.
+6. Clean and recompile your project!
 
 ## Compatibility
 
